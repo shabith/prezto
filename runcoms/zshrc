@@ -10,4 +10,106 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
+# Customize to your needs..
+
+# zplug configration
+source ~/.zplug/init.zsh
+
+# Plugins
+# zplug "plugins/git",   from:oh-my-zsh
+# zplug "plugins/osx",   from:oh-my-zsh
+# zplug "plugins/z",   from:oh-my-zsh
+zplug "plugins/jsontools",   from:oh-my-zsh
+zplug "plugins/composer",   from:oh-my-zsh
+zplug "zsh-users/zsh-autosuggestions"
+zplug "clvv/fasd"
+zplug "b4b4r07/enhancd"
+zplug "junegunn/fzf"
+zplug "Peltoche/lsd"
+zplug "g-plane/zsh-yarn-autocompletions"
+
+AUTOSUGGESTION_HIGHLIGHT_COLOR='fg=250'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#bbb"
+
+# alias
+alias wget='wget -c' # Download and resume
+alias getpass='openssl rand -base64 20' # Generate password
+alias sha='shasum -a 256' # Check shasum
+alias ping='ping -c 5' # Limit ping to 5'
+alias intel="arch -x86_64"
+alias intel-zsh="arch -x86_64 zsh"
+alias untar='tar -zxvf' # Unpack .tar file
+
+# alias for faSd
+alias a='fasd -a'        # any
+alias s='fasd -si'       # show / search / select
+alias d='fasd -d'        # directory
+alias f='fasd -f'        # file
+alias sd='fasd -sid'     # interactive directory selection
+alias sf='fasd -sif'     # interactive file selection
+alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+alias zz='fasd_cd -d -i' # cd with interactive selection
+
+# ls -> lsd
+alias ls='lsd'
+
+# IP addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en0"
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+
+# Show/hide hidden files in Finder
+alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
+# Hide/show all desktop icons (useful when presenting)
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+#tree view
+alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g' | more"
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
+
+alias androidstudio="open -a /Applications/Android\ Studio.app"
+
+# custom functions
+
+# take this repo and copy it to somewhere else minus the .git stuff.
+function gitexport(){
+        mkdir -p "$1"
+        git archive master | tar -x -C "$1"
+}
+
+# gitignore.io generator
+function gig() {
+	curl https://www.gitignore.io/api/"$1" | pbcopy;
+	echo "Copied to clipboard!";
+}
+
+function mkd() {
+	mkdir -p "$@" && cd "$_";
+}
+
+#path exports
+# homebrew
+export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.0.11.jdk/Contents/Home
+export javaHome=/Library/Java/JavaVirtualMachines/jdk-11.0.11.jdk/Contents/Home
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export ANDROID_SDK_ROOT=/Users/shabith/Library/Android/sdk
+
+# pyCharm
+export PYTHONPATH=python3
+
+# ruby
+eval "$(rbenv init -)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
